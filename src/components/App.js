@@ -3,22 +3,24 @@ import "../styles/App.scss";
 import { useEffect, useState } from "react";
 
 function App() {
-  
   const [dataFiles, setDataFiles] = useState([]);
-  const [dataLines, setDataLines] = useState("");
 
+  const [dataLines, setDataLines] = useState("");
   const [dataCharacter, setDataCharacter] = useState("");
 
   const [lineFilter, setlineFilter] = useState("");
   const [characterFilter, setCharacterFilter] = useState("");
 
-  const handleLineFilter = () => {
+  const handleLineFilter = (e) => {
+    setlineFilter(e.target.value);
+  };
 
-  }
+  const handleCharacterFilter = (e) => {
+    setCharacterFilter(e.target.value);
+  };
 
-  const handleCharacterFilter = () => {
-    
-  }
+  console.log(lineFilter);
+  console.log(characterFilter);
 
   const handleLine = (e) => {
     setDataLines(e.target.value);
@@ -28,13 +30,12 @@ function App() {
     setDataCharacter(e.target.value);
   };
   const handleBtn = (e) => {
-    e.preventDefault()
-    const newLine = {quote: dataLines, character: dataCharacter}
-    setDataFiles([...dataFiles, newLine])
-    setDataLines("")
-    setDataCharacter("")
+    e.preventDefault();
+    const newLine = { quote: dataLines, character: dataCharacter };
+    setDataFiles([...dataFiles, newLine]);
+    setDataLines("");
+    setDataCharacter("");
   };
-
 
   // Fetch
   useEffect(() => {
@@ -53,23 +54,38 @@ function App() {
         <h1 className="title">Frases de Friends</h1>
         <form>
           <label htmlFor="quote">Filtrar por frases</label>
-          <input type="text" name="quote" id="quote" onChange={handleLineFilter} value= {}/>
+          <input
+            type="text"
+            name="quote"
+            id="quote"
+            onChange={handleLineFilter}
+            value={lineFilter}
+          />
           <label htmlFor="chracter">Filtrar por personaje</label>
-          <select name="character" id="character" onChange={handleCharacterFilter} value= {}>
-            <option value="all">Todos</option>
-            <option value="ross">Ross</option>
-            <option value="monica">Mónica</option>
-            <option value="joey">Joey</option>
-            <option value="phoebe">Phoebe</option>
-            <option value="chandler">Chandler</option>
-            <option value="rachel">Rachel</option>
+          <select
+            name="character"
+            id="character"
+            onChange={handleCharacterFilter}
+            value={characterFilter}
+          >
+            <option value="">Todos</option>
+            <option value="Ross">Ross</option>
+            <option value="Monica">Mónica</option>
+            <option value="Joey">Joey</option>
+            <option value="Phoebe">Phoebe</option>
+            <option value="Chandler">Chandler</option>
+            <option value="Rachel">Rachel</option>
           </select>
         </form>
-        {dataFiles.map((phrase, index) => (
-          <p key={index}>
-            {phrase.quote} - {phrase.character}
-          </p>
-        ))}
+        {dataFiles
+          .filter((phrase) => {
+            return phrase.quote.toLowerCase().includes(lineFilter.toLowerCase()) && (phrase.character === characterFilter || !characterFilter);
+          })
+          .map((phrase, index) => (
+            <p key={index}>
+              {phrase.quote} - {phrase.character}
+            </p>
+          ))}
       </header>
       <main>
         <ul></ul>
@@ -91,7 +107,11 @@ function App() {
             onChange={handleCharacter}
             value={dataCharacter}
           />
-          <input type="submit" onClick={handleBtn} value="Añadir una nueva frase" />
+          <input
+            type="submit"
+            onClick={handleBtn}
+            value="Añadir una nueva frase"
+          />
         </form>
       </main>
     </div>
