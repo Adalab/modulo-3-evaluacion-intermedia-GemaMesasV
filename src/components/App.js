@@ -3,11 +3,22 @@ import "../styles/App.scss";
 import { useEffect, useState } from "react";
 
 function App() {
-  //guardar datos de los inputs en un setState, uno para cada uno
-  //en el onSubmit pasar una funcion que pushee a list un nuevo objeto con los datos que hay en los state
+  
   const [dataFiles, setDataFiles] = useState([]);
   const [dataLines, setDataLines] = useState("");
+
   const [dataCharacter, setDataCharacter] = useState("");
+
+  const [lineFilter, setlineFilter] = useState("");
+  const [characterFilter, setCharacterFilter] = useState("");
+
+  const handleLineFilter = () => {
+
+  }
+
+  const handleCharacterFilter = () => {
+    
+  }
 
   const handleLine = (e) => {
     setDataLines(e.target.value);
@@ -42,9 +53,9 @@ function App() {
         <h1 className="title">Frases de Friends</h1>
         <form>
           <label htmlFor="quote">Filtrar por frases</label>
-          <input type="text" name="quote" id="quote" />
+          <input type="text" name="quote" id="quote" onChange={handleLineFilter} value= {}/>
           <label htmlFor="chracter">Filtrar por personaje</label>
-          <select name="character" id="character">
+          <select name="character" id="character" onChange={handleCharacterFilter} value= {}>
             <option value="all">Todos</option>
             <option value="ross">Ross</option>
             <option value="monica">Mónica</option>
@@ -54,8 +65,8 @@ function App() {
             <option value="rachel">Rachel</option>
           </select>
         </form>
-        {dataFiles.map((phrase) => (
-          <p>
+        {dataFiles.map((phrase, index) => (
+          <p key={index}>
             {phrase.quote} - {phrase.character}
           </p>
         ))}
