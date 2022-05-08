@@ -6,6 +6,24 @@ function App() {
   //guardar datos de los inputs en un setState, uno para cada uno
   //en el onSubmit pasar una funcion que pushee a list un nuevo objeto con los datos que hay en los state
   const [dataFiles, setDataFiles] = useState([]);
+  const [dataLines, setDataLines] = useState("");
+  const [dataCharacter, setDataCharacter] = useState("");
+
+  const handleLine = (e) => {
+    setDataLines(e.target.value);
+  };
+
+  const handleCharacter = (e) => {
+    setDataCharacter(e.target.value);
+  };
+  const handleBtn = (e) => {
+    e.preventDefault()
+    const newLine = {quote: dataLines, character: dataCharacter}
+    setDataFiles([...dataFiles, newLine])
+    setDataLines("")
+    setDataCharacter("")
+  };
+
 
   // Fetch
   useEffect(() => {
@@ -47,10 +65,22 @@ function App() {
         <form>
           <h2 className="subtitle">Añadir una nueva frase</h2>
           <label htmlFor="newQuote">Frase</label>
-          <input type="text" name="newQuote" id="newQuote" />
+          <input
+            type="text"
+            name="newQuote"
+            id="newQuote"
+            onChange={handleLine}
+            value={dataLines}
+          />
           <label htmlFor="character2">Personaje</label>
-          <input type="text" name="character2" id="character2" />
-          <input type="submit" value="Añadir una nueva frase" />
+          <input
+            type="text"
+            name="character2"
+            id="character2"
+            onChange={handleCharacter}
+            value={dataCharacter}
+          />
+          <input type="submit" onClick={handleBtn} value="Añadir una nueva frase" />
         </form>
       </main>
     </div>
