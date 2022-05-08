@@ -1,1 +1,1 @@
-# Gema's React Starter Kit
+# Evaluación intermedia - Módulo 3 - React
